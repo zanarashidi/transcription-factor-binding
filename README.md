@@ -18,6 +18,9 @@ To prepare the dataset for training, first we need to generate negative examples
 
 ## Model Design
 - Our architecture is similar to [Wang et. al [2018]](https://academic.oup.com/nar/article/46/11/e69/4958204). 
+<p align="center">
+    <img src="define.jpeg" width="600"\>
+</p>
 
 ### Architecture
 - We use a convolutional layer followed by ReLU activation, max-pooling and average-pooling, batch-normalization, and two fully connected layers.
