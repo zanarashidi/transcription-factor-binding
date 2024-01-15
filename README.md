@@ -8,7 +8,7 @@ To prepare the dataset for training, first we need to generate negative examples
 
 ### Generating negative examples
 - A simple random generation of DNA sequences would not be helpful since it is easy for a model to perform well on such sequences by relying on low-level statistics of genomic regions such as promoters or coding regions.
-- So in order to generate negative examples, we turn to *dinucleotide-preserving shuffles* based on the positive examples. A dinucleotide-preserving shuffling preserves the count of all 16 dinuc's, i.e. [AA, AC, ..., GT, TT].
+- So in order to generate negative examples, we turn to ***dinucleotide-preserving shuffles*** based on the positive examples. A dinucleotide-preserving shuffling preserves the count of all 16 dinuc's, i.e. [AA, AC, ..., GT, TT].
 - We make use of [Alipanahi et. al. [2014]](https://www.nature.com/articles/nbt.3300)'s code which is based on Altschul and Erickson's Algorithm for shuffling a sequence while preserving the doublet frequency.
 - We produce 7500 negative sequences, to balance the dataset.
 
@@ -38,10 +38,10 @@ To prepare the dataset for training, first we need to generate negative examples
 
 ## Hyperparameters
 - The hyperparameters can be selected using Grid Search or Random Search. However *due to a time limit* we chose hyperparameters mostly based on experience and resources with similar experiments.
-- *Learning rate* and *weight decay* were set to 0.001. *Batch size* was set to 64, and the *dropout* rate was set to 0.5. The number of *filters* for the convolutional layer was set to 16, and the *filter size* was set to (4, 24). The *size of fully connected layers* were set to 128. 
+- Learning rate and weight decay were set to 0.001. Batch size was set to 64, and the dropout rate was set to 0.5. The number of filters for the convolutional layer was set to 16, and the filter size was set to (4, 24). The size of fully connected layers were set to 128. 
 
 ## Initialization
-- The model weights were initialized using *Xavier* initialization.
+- The model weights were initialized using Xavier initialization.
 
 ## Files and Folders
 - `tf_prediction.py`: Main script for training and evaluating the model on the training / validation and test sets. Saves the trained model, metrics, and sequence logo in the `results_training` folder. If the argument `--test` is passed, the results are stored in the `results_test` folder.
@@ -49,7 +49,7 @@ To prepare the dataset for training, first we need to generate negative examples
 - `prepare_data.py`: Script preparing the dataset for training by generating negative sequences and padding. 
 - `doublet_shuffle.py`: Script implementing the nucleotide-preserving shuffles from the original sequences. (borrowed from [Alipanahi et. al. [2014]](https://www.nature.com/articles/nbt.3300))
 - `environment.yml`: The Ananconda environment file for ease of reproducibility.
-- `data` folder: Folder containing the data, includes `train.csv`, `train_processed.csv`
+- `data`: Folder containing the data, includes `train.csv`, `train_processed.csv`
 
 ## Reproduce
 - In order to reproduce the model, first, clone the Conda environment using the environment file:
@@ -70,21 +70,21 @@ python tf_prediciton.py --test
 ``` 
 
 ## Results
-- The model was trained for *20 epochs* on both bound and unbound (generated using doublet shuffling) sequences. 15% of the dataset was used as validation set for hyperparameter tuning.
+- The model was trained for 20 epochs on both bound and unbound (generated using doublet shuffling) sequences. 15% of the dataset was used as validation set for hyperparameter tuning.
 - The training and validation losses during training are shown below, showing the model’s improvement through training on the training and validation set.
 <p align="center">
-    <img src="results_training/training_curve.png" width="640"\>
+    <img src="results_training/training_curve.png" width="400"\>
 </p>
 
 - The following figures show the **ROC** and **Precision-Recall** curve of the model on the validation set. The ROC curve has an Aread Under Curve (AUC) of ***0.987*** indicating an almost perfect classification of the bound and unbound sequences. Similarly the Precision-Recall curve has an AUC of ***0.991***.
 <p align="center">
-    <img src="results_training/roc_curve.png" width="640"\>
-    <img src="results_training/pr_curve.png" width="640"\>
+    <img src="results_training/roc_curve.png" width="400"\>
+    <img src="results_training/pr_curve.png" width="400"\>
 </p>
 
 - Below is the *sequence logo* generated from the motifs extracted by the convolutional layer of the model. The sequence logo highlights the potential binding site of the unknown transcription factor.
 <p align="center">
-    <img src="results_training/sequence_logo.png" width="640"\>
+    <img src="results_training/sequence_logo.png" width="700"\>
 </p>
 
 - The height of each position in the sequence logo corresponds to the *information content* of that position (in bits) while the height of each letter is proportional to the *probability* of that letter in its position.
